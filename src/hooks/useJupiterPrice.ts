@@ -1,39 +1,50 @@
 import { useEffect, useState } from "react";
 
-// NOTE: Jupiter's price API has changed tiers/endpoints before.
-// Verify the current base URL and whether an API key is required
-// at https://station.jup.ag/docs before your demo.
-const JUPITER_PRICE_BASE = "https://lite-api.jup.ag/price/v2";
+// Jupiter Price API v3. Returns a flat object keyed by mint address —
+// no { data: ... } wrapper, and the field is usdPrice (not price).
+const JUPITER_PRICE_BASE = "https://lite-api.jup.ag/price/v3";
 
-interface JupiterPriceData {
-  [mint: string]: { price: string } | undefined;
+export interface JupiterStockData {
+  /** Reference price of the underlying share, per Jupiter */
+  price: number;
+  mcap: number;
+  /** ISO timestamp — outside trading hours this stops advancing */
+  updatedAt: string;
 }
 
+export interface JupiterQuote {
+  usdPrice: number;
+  liquidity?: number;
+  priceChange24h?: number;
+  decimals?: number;
+  /** Present for tokenized equities; absent for ordinary tokens */
+  stockData?: JupiterStockData;
+}
+
+export type JupiterQuotes = Record<string, JupiterQuote | undefined>;
+
 export function useJupiterPrice(mintAddresses: string[], pollMs = 15000) {
-  const [prices, setPrices] = useState<JupiterPriceData>({});
+  const [quotes, setQuotes] = useState<JupiterQuotes>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    const validIds = mintAddresses.filter(
-      (id) => id && !id.startsWith("TODO")
-    );
+    const validIds = mintAddresses.filter((id) => id && !id.startsWith("TODO"));
 
     if (validIds.length === 0) {
       setLoading(false);
-      setError("No verified mint addresses provided yet.");
+      setError("No verified mint addresses in the registry yet.");
       return;
     }
 
     async function fetchPrices() {
       try {
-        const url = `${JUPITER_PRICE_BASE}?ids=${validIds.join(",")}`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Jupiter API returned ${res.status}`);
-        const json = await res.json();
+        const res = await fetch(`${JUPITER_PRICE_BASE}?ids=${validIds.join(",")}`);
+        if (!res.ok) throw new Error(`Jupiter returned ${res.status}.`);
+        const json = (await res.json()) as JupiterQuotes;
         if (!cancelled) {
-          setPrices(json.data || {});
+          setQuotes(json ?? {});
           setError(null);
           setLoading(false);
         }
@@ -59,5 +70,5 @@ export function useJupiterPrice(mintAddresses: string[], pollMs = 15000) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mintAddresses.join(","), pollMs]);
 
-  return { prices, loading, error };
+  return { quotes, loading, error };
 }
