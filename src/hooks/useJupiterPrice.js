@@ -3,18 +3,16 @@ import { useEffect, useState } from "react";
 // NOTE: Jupiter's price API has changed tiers/endpoints before.
 // Verify the current base URL and whether an API key is required
 // at https://station.jup.ag/docs before your demo.
-// As of early 2026 the free/lite tier lived at lite-api.jup.ag.
 const JUPITER_PRICE_BASE = "https://lite-api.jup.ag/price/v2";
 
-/**
- * Fetches live prices for a list of Solana mint addresses.
- * @param {string[]} mintAddresses
- * @param {number} pollMs - how often to refresh, 0 disables polling
- */
-export function useJupiterPrice(mintAddresses = [], pollMs = 15000) {
-  const [prices, setPrices] = useState({});
+interface JupiterPriceData {
+  [mint: string]: { price: string } | undefined;
+}
+
+export function useJupiterPrice(mintAddresses: string[], pollMs = 15000) {
+  const [prices, setPrices] = useState<JupiterPriceData>({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -41,7 +39,7 @@ export function useJupiterPrice(mintAddresses = [], pollMs = 15000) {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message);
+          setError(err instanceof Error ? err.message : String(err));
           setLoading(false);
         }
       }
@@ -58,6 +56,7 @@ export function useJupiterPrice(mintAddresses = [], pollMs = 15000) {
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mintAddresses.join(","), pollMs]);
 
   return { prices, loading, error };
