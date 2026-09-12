@@ -10,6 +10,14 @@ export function useStockPrice(ticker: string) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Empty ticker means the caller already has a reference price
+    // from Jupiter and does not need this fallback.
+    if (!ticker) {
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     const key = import.meta.env.VITE_FINNHUB_KEY;
     if (!key) {
       setLoading(false);
