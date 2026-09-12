@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 
-// A free, browser-callable (CORS-friendly) equity quote source is the
-// missing piece here — most good ones (IEX, Polygon, Alpha Vantage)
-// require a key and/or block direct browser calls in some tiers.
-// Finnhub's free tier supports CORS and is a reasonable starting point:
-// https://finnhub.io/docs/api/quote
-// Sign up for a free key and put it in a .env file as VITE_FINNHUB_KEY.
+// Finnhub's free tier supports CORS for browser calls.
+// Sign up for a free key at finnhub.io and set it as VITE_FINNHUB_KEY in .env.
 const FINNHUB_BASE = "https://finnhub.io/api/v1/quote";
 
-export function useStockPrice(ticker) {
-  const [price, setPrice] = useState(null);
+export function useStockPrice(ticker: string) {
+  const [price, setPrice] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const key = import.meta.env.VITE_FINNHUB_KEY;
@@ -36,7 +32,7 @@ export function useStockPrice(ticker) {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message);
+          setError(err instanceof Error ? err.message : String(err));
           setLoading(false);
         }
       }
