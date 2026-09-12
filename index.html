@@ -1,16 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>SolLens</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+@import "tailwindcss";
+
+@theme {
+  /* Optical glass — the green-black you see at the cut edge of a sheet */
+  --color-abyss: #071210;
+  --color-ink: #0b1a16;
+  --color-surface: #0f221d;
+  --color-hairline: #1c3a32;
+  --color-hairline-soft: #142b25;
+
+  --color-bright: #eaf4f0;
+  --color-muted: #7c9a90;
+  --color-faint: #4e6b62;
+
+  /* Premium warm, discount cool — semantic, used only on the meter */
+  --color-premium: #e8a05c;
+  --color-discount: #5fc9bd;
+  --color-alert: #d98b6a;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  background-color: var(--color-abyss);
+}
+
+body {
+  background-color: var(--color-abyss);
+  color: var(--color-bright);
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular figures everywhere numbers are compared vertically */
+.tnum {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Visible keyboard focus, never removed */
+:focus-visible {
+  outline: 2px solid var(--color-discount);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
