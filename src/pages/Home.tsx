@@ -15,7 +15,7 @@ export function Home() {
     <>
       {/* Hero: the session clock, because the gap between a 24/7 chain and a
           closed exchange is the whole reason basis drifts. */}
-      <section className="mx-auto max-w-5xl px-5 pb-14 pt-16 sm:pt-24">
+      <section className="mx-auto max-w-[1600px] px-6 sm:px-10 pb-14 pt-16 sm:pt-24">
         <div className="max-w-[34ch]">
           <h1 className="text-[clamp(2.25rem,6vw,3.5rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
             A tokenized stock is not the stock.
@@ -27,7 +27,7 @@ export function Home() {
           </p>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 border-t border-hairline-soft pt-6">
+        <div className="mt-12 flex flex-wrap items-center gap-x-12 gap-y-5 border-t border-hairline-soft pt-6">
           <div className="flex items-center gap-2.5">
             <span
               className="h-2 w-2 rounded-full"
@@ -59,8 +59,8 @@ export function Home() {
         </div>
       </section>
 
-      <main id="registry" className="mx-auto max-w-5xl px-5 pb-24">
-        <div className="rounded-lg border border-hairline-soft bg-ink px-6 py-7 sm:px-9 sm:py-9">
+      <main id="registry" className="mx-auto max-w-[1600px] px-6 sm:px-10 pb-24">
+        <div className="max-w-[1100px] rounded-lg border border-hairline-soft bg-ink px-6 py-7 sm:px-9 sm:py-9">
           {loading && (
             <p className="tnum py-10 text-center text-[14px] text-faint">
               Reading prices…
