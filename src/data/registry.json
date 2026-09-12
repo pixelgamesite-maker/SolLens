@@ -13,9 +13,12 @@
       "dividendHandling": "none (TSLA pays no dividend)",
       "votingRights": "none",
       "redemption": "TODO_VERIFY (who can redeem, KYC tier required)",
-      "excludedJurisdictions": ["US", "TODO_VERIFY full list"],
+      "excludedJurisdictions": [
+        "US",
+        "TODO_VERIFY full list"
+      ],
       "corporateActionPolicy": "TODO_VERIFY (splits, delisting, etc.)",
-      "mintAddress": "TODO_VERIFY_MINT_ADDRESS",
+      "mintAddress": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
       "sourceUrl": "TODO: link to issuer's official terms page"
     },
     {
@@ -29,9 +32,12 @@
       "dividendHandling": "TODO_VERIFY (NVDA pays a small dividend)",
       "votingRights": "none",
       "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": ["US", "TODO_VERIFY full list"],
+      "excludedJurisdictions": [
+        "US",
+        "TODO_VERIFY full list"
+      ],
       "corporateActionPolicy": "TODO_VERIFY",
-      "mintAddress": "TODO_VERIFY_MINT_ADDRESS",
+      "mintAddress": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
       "sourceUrl": "TODO"
     },
     {
@@ -45,9 +51,12 @@
       "dividendHandling": "TODO_VERIFY (cash pass-through vs accrual vs none — check this one carefully, it's your differentiator field)",
       "votingRights": "none",
       "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": ["US", "TODO_VERIFY full list"],
+      "excludedJurisdictions": [
+        "US",
+        "TODO_VERIFY full list"
+      ],
       "corporateActionPolicy": "TODO_VERIFY",
-      "mintAddress": "TODO_VERIFY_MINT_ADDRESS",
+      "mintAddress": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
       "sourceUrl": "TODO"
     },
     {
@@ -61,9 +70,12 @@
       "dividendHandling": "TODO_VERIFY (ETF distributions are more frequent/complex than single stocks)",
       "votingRights": "none",
       "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": ["US", "TODO_VERIFY full list"],
+      "excludedJurisdictions": [
+        "US",
+        "TODO_VERIFY full list"
+      ],
       "corporateActionPolicy": "TODO_VERIFY (index rebalancing pass-through)",
-      "mintAddress": "TODO_VERIFY_MINT_ADDRESS",
+      "mintAddress": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
       "sourceUrl": "TODO"
     },
     {
@@ -77,9 +89,12 @@
       "dividendHandling": "none",
       "votingRights": "none",
       "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": ["US", "TODO_VERIFY full list"],
+      "excludedJurisdictions": [
+        "US",
+        "TODO_VERIFY full list"
+      ],
       "corporateActionPolicy": "TODO_VERIFY",
-      "mintAddress": "TODO_VERIFY_MINT_ADDRESS",
+      "mintAddress": "Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu",
       "sourceUrl": "TODO"
     }
   ]
