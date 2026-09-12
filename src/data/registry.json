@@ -1,6 +1,5 @@
 {
-  "schemaVersion": "0.1",
-  "lastVerified": "TODO: set date when you confirm these fields against issuer docs",
+  "schemaVersion": "0.2",
   "tokens": [
     {
       "id": "tslax",
@@ -8,18 +7,18 @@
       "underlyingTicker": "TSLA",
       "name": "Tesla xStock",
       "issuer": "Backed Finance",
-      "legalWrapper": "TODO_VERIFY (tracker certificate vs 1:1 custodied share)",
-      "custodyModel": "TODO_VERIFY",
-      "dividendHandling": "none (TSLA pays no dividend)",
-      "votingRights": "none",
-      "redemption": "TODO_VERIFY (who can redeem, KYC tier required)",
-      "excludedJurisdictions": [
-        "US",
-        "TODO_VERIFY full list"
-      ],
-      "corporateActionPolicy": "TODO_VERIFY (splits, delisting, etc.)",
       "mintAddress": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
-      "sourceUrl": "TODO: link to issuer's official terms page"
+      "rights": {
+        "legalWrapper": null,
+        "custodyModel": null,
+        "dividendHandling": null,
+        "votingRights": null,
+        "redemption": null,
+        "corporateActionPolicy": null,
+        "excludedJurisdictions": null
+      },
+      "sourceUrl": null,
+      "verifiedAt": null
     },
     {
       "id": "nvdax",
@@ -27,18 +26,18 @@
       "underlyingTicker": "NVDA",
       "name": "Nvidia xStock",
       "issuer": "Backed Finance",
-      "legalWrapper": "TODO_VERIFY",
-      "custodyModel": "TODO_VERIFY",
-      "dividendHandling": "TODO_VERIFY (NVDA pays a small dividend)",
-      "votingRights": "none",
-      "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": [
-        "US",
-        "TODO_VERIFY full list"
-      ],
-      "corporateActionPolicy": "TODO_VERIFY",
       "mintAddress": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
-      "sourceUrl": "TODO"
+      "rights": {
+        "legalWrapper": null,
+        "custodyModel": null,
+        "dividendHandling": null,
+        "votingRights": null,
+        "redemption": null,
+        "corporateActionPolicy": null,
+        "excludedJurisdictions": null
+      },
+      "sourceUrl": null,
+      "verifiedAt": null
     },
     {
       "id": "aaplx",
@@ -46,18 +45,18 @@
       "underlyingTicker": "AAPL",
       "name": "Apple xStock",
       "issuer": "Backed Finance",
-      "legalWrapper": "TODO_VERIFY",
-      "custodyModel": "TODO_VERIFY",
-      "dividendHandling": "TODO_VERIFY (cash pass-through vs accrual vs none — check this one carefully, it's your differentiator field)",
-      "votingRights": "none",
-      "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": [
-        "US",
-        "TODO_VERIFY full list"
-      ],
-      "corporateActionPolicy": "TODO_VERIFY",
       "mintAddress": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
-      "sourceUrl": "TODO"
+      "rights": {
+        "legalWrapper": null,
+        "custodyModel": null,
+        "dividendHandling": null,
+        "votingRights": null,
+        "redemption": null,
+        "corporateActionPolicy": null,
+        "excludedJurisdictions": null
+      },
+      "sourceUrl": null,
+      "verifiedAt": null
     },
     {
       "id": "spyx",
@@ -65,18 +64,18 @@
       "underlyingTicker": "SPY",
       "name": "S&P 500 ETF xStock",
       "issuer": "Backed Finance",
-      "legalWrapper": "TODO_VERIFY",
-      "custodyModel": "TODO_VERIFY",
-      "dividendHandling": "TODO_VERIFY (ETF distributions are more frequent/complex than single stocks)",
-      "votingRights": "none",
-      "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": [
-        "US",
-        "TODO_VERIFY full list"
-      ],
-      "corporateActionPolicy": "TODO_VERIFY (index rebalancing pass-through)",
       "mintAddress": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
-      "sourceUrl": "TODO"
+      "rights": {
+        "legalWrapper": null,
+        "custodyModel": null,
+        "dividendHandling": null,
+        "votingRights": null,
+        "redemption": null,
+        "corporateActionPolicy": null,
+        "excludedJurisdictions": null
+      },
+      "sourceUrl": null,
+      "verifiedAt": null
     },
     {
       "id": "coinx",
@@ -84,18 +83,18 @@
       "underlyingTicker": "COIN",
       "name": "Coinbase xStock",
       "issuer": "Backed Finance",
-      "legalWrapper": "TODO_VERIFY",
-      "custodyModel": "TODO_VERIFY",
-      "dividendHandling": "none",
-      "votingRights": "none",
-      "redemption": "TODO_VERIFY",
-      "excludedJurisdictions": [
-        "US",
-        "TODO_VERIFY full list"
-      ],
-      "corporateActionPolicy": "TODO_VERIFY",
       "mintAddress": "Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu",
-      "sourceUrl": "TODO"
+      "rights": {
+        "legalWrapper": null,
+        "custodyModel": null,
+        "dividendHandling": null,
+        "votingRights": null,
+        "redemption": null,
+        "corporateActionPolicy": null,
+        "excludedJurisdictions": null
+      },
+      "sourceUrl": null,
+      "verifiedAt": null
     }
   ]
 }
