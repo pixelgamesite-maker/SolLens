@@ -9,7 +9,7 @@ const tokens = registryData.tokens as Token[];
 const mintAddresses = tokens.map((t) => t.mintAddress);
 
 export default function App() {
-  const { prices, loading, error } = useJupiterPrice(mintAddresses);
+  const { quotes, loading, error } = useJupiterPrice(mintAddresses);
   const session = useMarketSession();
 
   return (
@@ -84,19 +84,16 @@ export default function App() {
           )}
 
           <div className={loading ? "hidden" : "mt-2"}>
-            {tokens.map((token) => {
-              const raw = prices[token.mintAddress]?.price;
-              return (
-                <TokenCard
-                  key={token.id}
-                  token={token}
-                  tokenPrice={raw != null ? Number(raw) : null}
-                  tokenLoading={loading}
-                  tokenError={error}
-                  referenceLabel={session.referenceLabel}
-                />
-              );
-            })}
+            {tokens.map((token) => (
+              <TokenCard
+                key={token.id}
+                token={token}
+                quote={quotes[token.mintAddress]}
+                loading={loading}
+                error={error}
+                referenceLabel={session.referenceLabel}
+              />
+            ))}
           </div>
         </div>
 
