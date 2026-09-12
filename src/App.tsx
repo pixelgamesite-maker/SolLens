@@ -13,7 +13,7 @@ export default function App() {
           {(params) => <TokenDetail id={params.id} />}
         </Route>
         <Route>
-          <main className="mx-auto max-w-5xl px-5 py-24">
+          <main className="mx-auto max-w-[1600px] px-6 sm:px-10 py-24">
             <h1 className="text-[26px] font-semibold">Nothing at this address.</h1>
             <a
               href="/"
