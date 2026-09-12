@@ -52,10 +52,14 @@ export function RightsPanel({ token }: { token: Token }) {
                   {value}
                 </span>
               ) : (
-                <span className="text-[14px] leading-relaxed text-muted">
-                  Not yet read from the issuer's documents.
-                  <span className="mt-0.5 block text-[13px] text-faint">{why}</span>
-                </span>
+                <div>
+                  <div className="text-[14px] leading-relaxed text-muted">
+                    Not yet read from the issuer's documents.
+                  </div>
+                  <div className="mt-1 text-[13px] leading-relaxed text-faint">
+                    {why}
+                  </div>
+                </div>
               )}
             </dd>
           </div>
