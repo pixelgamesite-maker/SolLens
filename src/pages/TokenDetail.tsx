@@ -37,7 +37,7 @@ export function TokenDetail({ id }: { id: string }) {
 
   if (!token) {
     return (
-      <main className="mx-auto max-w-5xl px-5 py-24">
+      <main className="mx-auto max-w-[1600px] px-6 sm:px-10 py-24">
         <h1 className="text-[26px] font-semibold">No token with that name.</h1>
         <Link href="/" className="mt-4 inline-block text-discount underline underline-offset-2">
           Back to the registry
@@ -61,7 +61,7 @@ export function TokenDetail({ id }: { id: string }) {
     : null;
 
   return (
-    <main className="mx-auto max-w-5xl px-5 pb-24 pt-10">
+    <main className="mx-auto max-w-[1600px] px-6 sm:px-10 pb-24 pt-10">
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-[14px] text-muted transition-colors hover:text-bright"
@@ -72,7 +72,7 @@ export function TokenDetail({ id }: { id: string }) {
         Registry
       </Link>
 
-      <header className="mt-6 flex flex-wrap items-end justify-between gap-6 border-b border-hairline-soft pb-7">
+      <header className="mt-6 flex flex-wrap items-end justify-between gap-x-12 gap-y-6 border-b border-hairline-soft pb-7">
         <div>
           <h1 className="text-[clamp(2rem,5vw,2.75rem)] font-semibold leading-none tracking-[-0.03em]">
             {token.symbol}
@@ -91,59 +91,62 @@ export function TokenDetail({ id }: { id: string }) {
         </div>
       </header>
 
-      <section className="mt-8">
-        <BasisMeter basis={basis} />
-      </section>
-
-      <section className="mt-9">
-        <PriceChart
-          candles={candles}
-          loading={candlesLoading}
-          error={candlesError}
-          rangeIndex={rangeIndex}
-          onRangeChange={setRangeIndex}
-          referencePrice={reference}
-        />
-      </section>
-
-      <section className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-hairline-soft py-7 sm:grid-cols-4">
-        <Stat
-          label={`${token.underlyingTicker} ${session.referenceLabel}`}
-          value={reference != null ? usd(reference) : "—"}
-          note={
-            refAgeMin != null
-              ? refAgeMin < 60
-                ? `updated ${refAgeMin} min ago`
-                : `updated ${Math.round(refAgeMin / 60)} h ago`
-              : undefined
-          }
-        />
-        <Stat
-          label="Spread per share"
-          value={hasBoth ? usd(tokenPrice - reference) : "—"}
-        />
-        <Stat
-          label="24h volume"
-          value={market ? compact(market.totalVolume24h) : "—"}
-        />
-        <Stat
-          label="Pool liquidity"
-          value={market ? compact(market.totalLiquidity) : "—"}
-        />
-      </section>
-
-      <section className="mt-10 grid gap-10 lg:grid-cols-[1fr_300px]">
+      <div className="mt-8 grid gap-10 xl:grid-cols-[minmax(0,1fr)_340px]">
+        {/* Left: the reading and its history */}
         <div>
-          <h2 className="text-[22px] font-semibold tracking-[-0.02em]">
-            What you actually own
-          </h2>
-          <dl className="mt-5">
-            <RightsPanel token={token} />
-          </dl>
+          <div className="max-w-[620px]">
+            <BasisMeter basis={basis} />
+          </div>
+
+          <section className="mt-9">
+            <PriceChart
+              candles={candles}
+              loading={candlesLoading}
+              error={candlesError}
+              rangeIndex={rangeIndex}
+              onRangeChange={setRangeIndex}
+              referencePrice={reference}
+            />
+          </section>
+
+          <section className="mt-9 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-hairline-soft py-7 sm:grid-cols-4">
+            <Stat
+              label={`${token.underlyingTicker} ${session.referenceLabel}`}
+              value={reference != null ? usd(reference) : "—"}
+              note={
+                refAgeMin != null
+                  ? refAgeMin < 60
+                    ? `updated ${refAgeMin} min ago`
+                    : `updated ${Math.round(refAgeMin / 60)} h ago`
+                  : undefined
+              }
+            />
+            <Stat
+              label="Spread per share"
+              value={hasBoth ? usd(tokenPrice - reference) : "—"}
+            />
+            <Stat
+              label="24h volume"
+              value={market ? compact(market.totalVolume24h) : "—"}
+            />
+            <Stat
+              label="Pool liquidity"
+              value={market ? compact(market.totalLiquidity) : "—"}
+            />
+          </section>
+
+          <section className="mt-10">
+            <h2 className="text-[22px] font-semibold tracking-[-0.02em]">
+              What you actually own
+            </h2>
+            <dl className="mt-5 max-w-[820px]">
+              <RightsPanel token={token} />
+            </dl>
+          </section>
         </div>
 
-        <aside>
-          <h2 className="text-[22px] font-semibold tracking-[-0.02em]">
+        <aside className="xl:border-l xl:border-hairline-soft xl:pl-9">
+          <h2 className="text-[17px] font-semibold tracking-[-0.02em]">
             Trading over 24 hours
           </h2>
 
@@ -204,7 +207,7 @@ export function TokenDetail({ id }: { id: string }) {
             </div>
           )}
         </aside>
-      </section>
+      </div>
 
       {error && (
         <p className="mt-8 border-l-2 border-alert pl-3 text-[13px] text-alert">
