@@ -1,0 +1,89 @@
+.token-card {
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  font-family: system-ui, sans-serif;
+}
+
+.token-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.token-symbol {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 8px;
+}
+
+.token-name {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.token-issuer {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.token-prices {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+
+.price-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.price-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.basis-positive {
+  color: #1a7f37;
+}
+
+.basis-negative {
+  color: #cf222e;
+}
+
+.token-card-note {
+  font-size: 0.8rem;
+  color: #a15c00;
+  margin: 4px 0;
+}
+
+.rights-toggle {
+  background: none;
+  border: none;
+  color: #0969da;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 0;
+}
+
+.rights-list {
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.rights-list dt {
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.rights-list dd {
+  margin-left: 0;
+  color: #333;
+}
