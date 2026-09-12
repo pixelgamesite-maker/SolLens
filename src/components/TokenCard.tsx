@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useStockPrice } from "@/hooks/useStockPrice";
+import type { JupiterQuote } from "@/hooks/useJupiterPrice";
 import type { Token } from "@/types";
 
 const RIGHTS_FIELDS: { term: string; key: keyof Token }[] = [
@@ -11,33 +12,40 @@ const RIGHTS_FIELDS: { term: string; key: keyof Token }[] = [
   { term: "Corporate actions", key: "corporateActionPolicy" },
 ];
 
+const usd = (n: number) =>
+  n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+
+const compactUsd = (n: number) =>
+  `$${n.toLocaleString("en-US", { notation: "compact", maximumFractionDigits: 1 })}`;
+
 export function TokenCard({
   token,
-  tokenPrice,
-  tokenLoading,
-  tokenError,
+  quote,
+  loading,
+  error,
   referenceLabel,
 }: {
   token: Token;
-  tokenPrice: number | null;
-  tokenLoading: boolean;
-  tokenError: string | null;
+  quote: JupiterQuote | undefined;
+  loading: boolean;
+  error: string | null;
   referenceLabel: string;
 }) {
   const [expanded, setExpanded] = useState(false);
 
-  const {
-    price: underlyingPrice,
-    loading: stockLoading,
-    error: stockError,
-  } = useStockPrice(token.underlyingTicker);
+  const tokenPrice = quote?.usdPrice ?? null;
+  const jupReference = quote?.stockData?.price ?? null;
 
-  const hasBoth = tokenPrice != null && underlyingPrice != null;
-  const basis = hasBoth
-    ? ((tokenPrice - underlyingPrice) / underlyingPrice) * 100
-    : null;
+  // Finnhub is a fallback only — Jupiter ships the reference price in the
+  // same payload, so the app works with no API key at all.
+  const { price: finnhubReference } = useStockPrice(
+    jupReference == null ? token.underlyingTicker : ""
+  );
+  const reference = jupReference ?? finnhubReference ?? null;
+  const referenceSource = jupReference != null ? "Jupiter" : "Finnhub";
 
-  const unverified = token.mintAddress.startsWith("TODO");
+  const hasBoth = tokenPrice != null && reference != null;
+  const basis = hasBoth ? ((tokenPrice - reference) / reference) * 100 : null;
 
   return (
     <article className="border-b border-hairline-soft py-7 first:pt-0 last:border-0">
@@ -51,7 +59,9 @@ export function TokenCard({
           </h3>
           <p className="mt-1 text-[13px] text-faint">
             Issued by {token.issuer}
-            {unverified && " · registry entry unverified"}
+            {quote?.liquidity != null && (
+              <> · {compactUsd(quote.liquidity)} pool liquidity</>
+            )}
           </p>
         </div>
         <BasisBadge basis={basis} />
@@ -59,40 +69,33 @@ export function TokenCard({
 
       <BasisMeter basis={basis} />
 
-      <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3">
+      <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-4">
         <Readout
           label="Token"
-          value={
-            tokenLoading
-              ? "····"
-              : tokenPrice != null
-              ? `$${tokenPrice.toFixed(2)}`
-              : "—"
-          }
+          value={loading ? "····" : tokenPrice != null ? usd(tokenPrice) : "—"}
         />
         <Readout
           label={`${token.underlyingTicker} ${referenceLabel}`}
-          value={
-            stockLoading
-              ? "····"
-              : underlyingPrice != null
-              ? `$${underlyingPrice.toFixed(2)}`
-              : "—"
-          }
+          value={loading ? "····" : reference != null ? usd(reference) : "—"}
+          note={reference != null ? `via ${referenceSource}` : undefined}
         />
         <Readout
           label="Spread per share"
+          value={hasBoth ? usd(tokenPrice - reference) : "—"}
+        />
+        <Readout
+          label="Token 24h"
           value={
-            hasBoth ? `$${(tokenPrice - underlyingPrice).toFixed(2)}` : "—"
+            quote?.priceChange24h != null
+              ? `${quote.priceChange24h >= 0 ? "+" : ""}${quote.priceChange24h.toFixed(2)}%`
+              : "—"
           }
         />
       </div>
 
-      {(tokenError || stockError) && (
+      {error && (
         <p className="mt-4 border-l-2 border-alert pl-3 text-[13px] leading-relaxed text-alert">
-          {tokenError && <>Token price unavailable. {tokenError}</>}
-          {tokenError && stockError && <br />}
-          {stockError && <>Reference price unavailable. {stockError}</>}
+          Prices unavailable. {error}
         </p>
       )}
 
@@ -160,11 +163,11 @@ function BasisMeter({ basis }: { basis: number | null }) {
   const clamped = basis == null ? 0 : Math.max(-RANGE, Math.min(RANGE, basis));
   const pct = ((clamped + RANGE) / (RANGE * 2)) * 100;
   const premium = (basis ?? 0) >= 0;
+  const pegged = basis != null && Math.abs(basis) > RANGE;
 
   return (
     <div className="mt-5">
       <div className="relative h-6">
-        {/* calibration ticks at each whole percent */}
         <div className="absolute inset-x-0 top-3 flex justify-between">
           {Array.from({ length: 7 }).map((_, i) => (
             <span
@@ -175,9 +178,7 @@ function BasisMeter({ basis }: { basis: number | null }) {
             />
           ))}
         </div>
-        {/* baseline */}
         <div className="absolute inset-x-0 top-3 h-px bg-hairline-soft" />
-        {/* needle */}
         {basis != null && (
           <div
             className="absolute top-0 h-6 w-[2px] -translate-x-1/2 transition-[left] duration-500 ease-out"
@@ -192,18 +193,35 @@ function BasisMeter({ basis }: { basis: number | null }) {
       </div>
       <div className="mt-1 flex justify-between text-[11px] text-faint">
         <span className="tnum">−3%</span>
-        <span>{basis == null ? "awaiting both prices" : premium ? "trading above the stock" : "trading below the stock"}</span>
+        <span>
+          {basis == null
+            ? "awaiting both prices"
+            : pegged
+            ? "beyond the scale"
+            : premium
+            ? "trading above the stock"
+            : "trading below the stock"}
+        </span>
         <span className="tnum">+3%</span>
       </div>
     </div>
   );
 }
 
-function Readout({ label, value }: { label: string; value: string }) {
+function Readout({
+  label,
+  value,
+  note,
+}: {
+  label: string;
+  value: string;
+  note?: string;
+}) {
   return (
     <div>
       <div className="text-[12px] leading-tight text-faint">{label}</div>
       <div className="tnum mt-1 text-[18px] text-bright">{value}</div>
+      {note && <div className="mt-0.5 text-[11px] text-faint">{note}</div>}
     </div>
   );
 }
